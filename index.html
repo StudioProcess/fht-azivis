@@ -10,113 +10,21 @@
   </style>
 </head>
 <body>
-  
+  <script src="./node_modules/papaparse/papaparse.js"></script>
   <script type="module">
-    import { SVG } from './node_modules/@svgdotjs/svg.js/dist/svg.esm.js';
-    let W = 800, H = 800;
-    let draw = SVG().addTo('body').size(W, H);
+    import { loadData } from "./data.js";
     
-    async function loadJSON(file) {
-      let res = await fetch(file)
-      return res.json();
-    }
-    
-    function rad(deg) {
-      return deg / 180 * Math.PI;
-    }
-    
-    function polar2cartesian(angle_deg, radius) {
-      let angle = rad(angle_deg - 90);
-      return {
-        x: radius * Math.cos(angle),
-        y: radius * Math.sin(angle),
-      };
-    }
+    const data = {};
     
     (async function main() {
-      let data = await loadJSON('./data/partner_azidist.json');
-      // data = data.slice(0, 3);
+      data['partner'] = await loadData('./data/FH Technikum Daten 18_19 - Partner.csv');
+      data['herkunft_studierende'] = await loadData('./data/FH Technikum Daten 18_19 - Herkunftsland Studierende.csv');
+      data['herkunft_weiterbildungen'] = await loadData('./data/FH Technikum Daten 18_19 - Herkunftsland Weiterbildungen.csv');
+      data['austausch_mitarbeiter'] = await loadData('./data/FH Technikum Daten 18_19 - Austausch Mitarbeiter.csv');
+      data['austausch_studierende'] = await loadData('./data/FH Technikum Daten 18_19 - Austausch Studierende.csv');
+      
       console.log(data);
-      
-
-      draw.circle(5).center(W/2,H/2);
-      let scale = 80;
-      
-      for (let d of data) {
-        let p = polar2cartesian( d.azimuth_deg, (Math.log10(d.distance_km) + 1) * scale ) ;
-        d.point = p;
-        p.x += W/2;
-        p.y += H/2;
-        // console.log(p);
-        // 
-        // if (Math.random() < 0.2)
-        // draw.line(W/2, H/2, p.x, p.y).stroke({width:0.1, color:'black'});
-        
-        
-        draw.circle(1).center(p.x, p.y); //.fill('red');
-        // if (Math.random() < 0.1)
-          // draw.text(d.partner).move(p.x+3, p.y+1.5).attr({'font-family': 'system-ui', 'font-size':5, 'opacity':0.5})
-      }
-      
-      // // Scaling Circles (10 / 100 / 1.000 / 10.000)
-      // for (let i=scale; i<=400; i+=scale) {
-      //   draw.circle().radius(i).center(W/2, H/2).stroke({width:0.3, color:'black'}).fill('none')
-      // }
-      
-      
-      // polyline of all points
-      data.sort( (a,b) => b.distance_km - a.distance_km );
-      // data.sort( (a,b) => b.azimuth_deg - a.azimuth_deg );
-      let points = data.map(d => [d.point.x, d.point.y]);
-      console.log(points);
-      draw.polyline(points).fill({color:'black', opacity:0.4})//.stroke({width:0.5, color:'black'})
-      
-      
-      function distsq(p1, p2) {
-        return Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2);
-      }
-      // data.push({ point: {x:W/2, y:H/2} });
-      // // every point connected with it's nn neighbors
-      // const nn = 6;
-      // for (let d of data) {
-      //   let n = []; // neighbors with distances
-      //   for (let e of data) {
-      //     if (e === d) continue;
-      //     n.push({
-      //       point: e.point,
-      //       distsq: distsq(d.point, e.point)
-      //     });
-      //   }
-      //   n.sort( (a,b) => a.distsq - b.distsq ); // sort by distance
-      //   n = n.slice(0, nn);
-      //   console.log(n);
-      //   // draw lines
-      //   for (let e of n) {
-      //     draw.line(d.point.x, d.point.y, e.point.x, e.point.y).stroke({width:0.1, color:'black'});
-      //   }
-      // 
-      // }
-      
     })();
-    
-    
-    function saveString(str, ext = '.svg', mime = 'image/svg+xml') {
-      let link = document.createElement('a');
-      let timestamp = new Date().toISOString();
-      link.download = timestamp + ext;
-      link.href = URL.createObjectURL(new Blob([str], {type: mime}));
-      link.style.display = 'none';     // Firefox
-      document.body.appendChild(link); // Firefox
-      link.click();
-      document.body.removeChild(link); // Firefox
-    }
-
-    
-    document.addEventListener('keydown', e => {
-      if (e.key === 's') {
-        saveString (draw.svg() );
-      }
-    });
     
   </script>
 </body>

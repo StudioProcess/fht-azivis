@@ -11,7 +11,8 @@
   "author": "Martin Grödl <martin@process.studio> (https://process.studio)",
   "license": "AGPL-3.0",
   "dependencies": {
-    "@svgdotjs/svg.js": "^3.0.16"
+    "@svgdotjs/svg.js": "^3.0.16",
+    "papaparse": "^5.1.1"
   },
   "devDependencies": {
     "live-server": "^1.2.1"
