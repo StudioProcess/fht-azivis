@@ -7,14 +7,14 @@ export let label_field_controller;
 export function makeGUI(params, update) {
   gui = new dat.GUI();
   let g;
-  // console.log(params);
+  
   gui.add(params, 'dataset', ['partner', 'herkunft_studierende', 'herkunft_weiterbildungen', 'austausch_mitarbeiter', 'austausch_studierende']).onFinishChange(update);
   gui.add(params, 'scale', 50, 150).onFinishChange(update);
-  gui.addColor(params, 'color').onFinishChange(update);
-  gui.addColor(params, 'bg_color').onChange(main.updateBG);
+  gui.add(params, 'azimuth', ['exact', 'uniform']).onFinishChange(update);
   
-  // g = gui.addFolder('visualization');
-  gui.add(params, 'azimuth', ['exact', 'uniform']).onFinishChange(update);;
+  g = gui.addFolder('colors'); g.open();
+  g.addColor(params, 'color').onFinishChange(update);
+  g.addColor(params, 'bg_color').onChange(main.updateBG);
   
   g = gui.addFolder('lines'); g.open();
   g.add(params, 'lines').onFinishChange(update);
@@ -36,7 +36,7 @@ export function makeGUI(params, update) {
   g.add(params, 'dots').onFinishChange(update);
   g.add(params, 'dots_size', 0).onFinishChange(update);
   
-  gui.add(params, 'redraw');
+  // gui.add(params, 'redraw');
   gui.add(params, 'save_svg');
 
   return gui;
