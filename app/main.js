@@ -13,9 +13,10 @@ const params = {
   'scale': 80,
   'color': '#000000',
   'bg_color': '#ffffff',
-  'strokeWidth': 0.1,
   'font_size': 5,
   'lines': true,
+  'strokeWidth': 0.1,
+  'lines_opacity': 1,
   'labels': true,
   'labels_tx': 2,
   'labels_ty': 0,
@@ -77,7 +78,7 @@ function draw() {
     // 
     // if (Math.random() < 0.2)
     if (params.lines) {
-      draw.line(W/2, H/2, p.x, p.y).stroke({ width:params.strokeWidth, color:params.color });
+      draw.line(W/2, H/2, p.x, p.y).stroke({ width:params.strokeWidth, color:params.color, opacity:params.lines_opacity });
     }
   
     if (params.dots) {

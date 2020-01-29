@@ -18,13 +18,14 @@ export function makeGUI(params, update) {
   g = gui.addFolder('lines'); g.open();
   g.add(params, 'lines').onFinishChange(update);
   g.add(params, 'strokeWidth', 0.1, 3, 0.1).onFinishChange(update);
+  g.add(params, 'lines_opacity', 0.0, 1, 0.01).onFinishChange(update);
   
   g = gui.addFolder('labels'); g.open();
   g.add(params, 'labels').onFinishChange(update);
   g.add(params, 'font_size', 1.0).onFinishChange(update);
   g.add(params, 'labels_tx').onFinishChange(update);
   g.add(params, 'labels_ty').onFinishChange(update);
-  // g.add(params, 'labels_opacity', 0.0, 1.0, 0.01).onFinishChange(update);
+  g.add(params, 'labels_opacity', 0.0, 1.0, 0.01).onFinishChange(update);
   
   g = gui.addFolder('dots'); g.open();
   g.add(params, 'center').onFinishChange(update);
