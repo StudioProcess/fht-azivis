@@ -1,6 +1,6 @@
 import { loadData } from './data.js';
 import { makeGUI } from './gui.js';
-import { SVG } from './node_modules/@svgdotjs/svg.js/dist/svg.esm.js';
+import { SVG } from '../node_modules/@svgdotjs/svg.js/dist/svg.esm.js';
 
 const datasets = {};
 const params = {
