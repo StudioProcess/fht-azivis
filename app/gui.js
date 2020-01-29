@@ -2,6 +2,7 @@ import * as dat from '../node_modules/dat.gui/build/dat.gui.module.js';
 import * as main from './main.js';
 
 let gui;
+export let label_field_controller;
 
 export function makeGUI(params, update) {
   gui = new dat.GUI();
@@ -22,6 +23,8 @@ export function makeGUI(params, update) {
   
   g = gui.addFolder('labels'); g.open();
   g.add(params, 'labels').onFinishChange(update);
+  label_field_controller = g.add(params, 'field', []);
+
   g.add(params, 'font_size', 1.0).onFinishChange(update);
   g.add(params, 'labels_tx').onFinishChange(update);
   g.add(params, 'labels_ty').onFinishChange(update);

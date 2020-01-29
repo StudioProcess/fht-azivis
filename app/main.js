@@ -1,5 +1,5 @@
 import { loadData } from './data.js';
-import { makeGUI } from './gui.js';
+import * as gui from './gui.js';
 import { SVG } from '../node_modules/@svgdotjs/svg.js/dist/svg.esm.js';
 import * as util from './util.js';
 
@@ -18,6 +18,7 @@ const params = {
   'strokeWidth': 0.1,
   'lines_opacity': 1,
   'labels': true,
+  'field': 'land',
   'labels_tx': 2,
   'labels_ty': 0,
   'labels_opacity': 0.5,
@@ -47,10 +48,11 @@ export function updateBG() {
   document.querySelector('svg').style.backgroundColor = params.bg_color;
 }
 
-
+let label_field_controller;
 
 // draw svg
-function draw() {
+function draw_svg() {
+  console.log('redrawing');
   let W = mm2pt(config.W), H = mm2pt(config.H);
   let draw = SVG('svg').size(W + 'pt', H + 'pt');
   draw.viewbox(0, 0, W, H); // now we can specify all values in pt, but don't have to write 'pt' all the time
@@ -63,6 +65,14 @@ function draw() {
   const rotation_offset = data[0].azimuth_deg; // save rotation of first element after sorting (i.e. most to the north).
   console.log(data);
   
+  // setup lebel field selection in ui
+  console.log(  label_field_controller );
+  let label_fields = Object.keys(data[0]);
+  console.log(label_fields);
+  
+  if (!label_field_controller) label_field_controller = gui.label_field_controller;
+  label_field_controller = label_field_controller.options(label_fields).onFinishChange(draw_svg);
+  
   if (params.center) {
     draw.circle(params.center_size).center(W/2, H/2);
   }
@@ -71,7 +81,6 @@ function draw() {
     // console.log(d);
     let rotation_deg = params.azimuth == 'uniform' ? rotation_offset + (360 / data.length) * i : d.azimuth_deg;
     let p = polar2cartesian( rotation_deg, (Math.log10(d.distance_km) + 1) * params.scale ) ;
-    d.point = p;
     p.x += W/2;
     p.y += H/2;
     // console.log(p);
@@ -87,7 +96,9 @@ function draw() {
     
     // if (Math.random() < 0.1)
     if (params.labels) {
-      let text = draw.text(d.land).move(p.x, p.y).attr({ 'font-size':params.font_size, 'fill':params.color, 'opacity':params.labels_opacity });
+      let caption = label_fields.includes(params.field) ? d[params.field] : d[label_fields[0]];
+      caption = "" + caption; // make sure it's a string
+      let text = draw.text(caption).move(p.x, p.y).attr({ 'font-size':params.font_size, 'fill':params.color, 'opacity':params.labels_opacity });
       text.attr({ 'transform': `rotate(${rotation_deg - 90} ${p.x} ${p.y}) translate(${params.labels_tx} ${params.labels_ty})` })
     }
     
@@ -108,9 +119,8 @@ function draw() {
   datasets['austausch_mitarbeiter'] = await loadData('./data/FH Technikum Daten 18_19 - Austausch Mitarbeiter.csv');
   datasets['austausch_studierende'] = await loadData('./data/FH Technikum Daten 18_19 - Austausch Studierende.csv');
   
-  draw();
-  
-  let gui = makeGUI(params, draw);
+  gui.makeGUI(params, draw_svg);
+  draw_svg();
   
   document.addEventListener('keydown', e => {
     // console.log(e);
