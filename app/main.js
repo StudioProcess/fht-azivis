@@ -21,6 +21,7 @@ const params = {
   'labels_ty': 0,
   'save_svg': () => { util.saveSVGText( SVG('svg').svg() ); },
   'redraw': () => { draw(); },
+  'azimuth': 'exact'
 };
 
 const datasets = {};
@@ -52,13 +53,16 @@ function draw() {
   updateBG();
   
   let data = datasets[params.dataset];
-  // console.log(data);
+  data.sort( (a,b) => a.azimuth_deg - b.azimuth_deg ); // sort by azimuth
+  const rotation_offset = data[0].azimuth_deg; // save rotation of first element after sorting (i.e. most to the north).
+  console.log(data);
   
   draw.circle(10).center(W/2, H/2);
   
-  for (let d of data) {
+  for ( let [i, d] of data.entries() ) {
     // console.log(d);
-    let p = polar2cartesian( d.azimuth_deg, (Math.log10(d.distance_km) + 1) * params.scale ) ;
+    let rotation_deg = params.azimuth == 'uniform' ? rotation_offset + (360 / data.length) * i : d.azimuth_deg;
+    let p = polar2cartesian( rotation_deg, (Math.log10(d.distance_km) + 1) * params.scale ) ;
     d.point = p;
     p.x += W/2;
     p.y += H/2;
@@ -74,8 +78,7 @@ function draw() {
     // if (Math.random() < 0.1)
     if (params.labels) {
       let text = draw.text(d.land).move(p.x, p.y).attr({ 'font-size':params.font_size, 'fill':params.color, 'opacity':0.5 });
-      console.log(text);
-      text.attr({ 'transform': `rotate(${d.azimuth_deg - 90} ${p.x} ${p.y}) translate(${params.labels_tx} ${params.labels_ty})` })
+      text.attr({ 'transform': `rotate(${rotation_deg - 90} ${p.x} ${p.y}) translate(${params.labels_tx} ${params.labels_ty})` })
     }
     
     
@@ -101,7 +104,7 @@ function draw() {
   let gui = makeGUI(params, draw);
   
   document.addEventListener('keydown', e => {
-    console.log(e);
+    // console.log(e);
     if (e.key == 'f') {
       util.toggleFullscreen();
     }

@@ -12,7 +12,8 @@ export function makeGUI(params, update) {
   gui.addColor(params, 'color').onFinishChange(update);
   gui.addColor(params, 'bg_color').onChange(main.updateBG);
   
-  
+  // g = gui.addFolder('visualization');
+  gui.add(params, 'azimuth', ['exact', 'uniform']).onFinishChange(update);;
   
   g = gui.addFolder('lines'); g.open();
   g.add(params, 'lines').onFinishChange(update);
