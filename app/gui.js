@@ -11,5 +11,8 @@ export function makeGUI(params, update) {
   gui.addColor(params, 'color').onFinishChange(update);
   gui.addColor(params, 'bg_color').onChange(main.updateBG);
   gui.add(params, 'strokeWidth', 0.1, 3, 0.1).onFinishChange(update);
+  
+  gui.add(params, 'redraw');
+  gui.add(params, 'save_svg');
   return gui;
 }
