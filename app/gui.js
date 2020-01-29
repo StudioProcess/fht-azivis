@@ -9,8 +9,10 @@ export function makeGUI(params, update) {
   let g;
   
   gui.add(params, 'dataset', ['partner', 'herkunft_studierende', 'herkunft_weiterbildungen', 'austausch_mitarbeiter', 'austausch_studierende']).onFinishChange(update);
-  gui.add(params, 'scale', 50, 150).onFinishChange(update);
+  gui.add(params, 'scale', 20, 150).onFinishChange(update);
   gui.add(params, 'azimuth', ['exact', 'uniform']).onFinishChange(update);
+  gui.add(params, 'fixed_dist', 0).onFinishChange(update);
+  gui.add(params, 'use_fixed_dist', 0, 1, 0.01).onFinishChange(update);
   
   g = gui.addFolder('colors'); g.open();
   g.addColor(params, 'color').onFinishChange(update);

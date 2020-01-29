@@ -11,6 +11,8 @@ const config = {
 const params = {
   'dataset': 'partner',
   'scale': 80,
+  'fixed_dist': 3,
+  'use_fixed_dist': 0,
   'color': '#000000',
   'bg_color': '#ffffff',
   'font_size': 5,
@@ -48,6 +50,9 @@ export function updateBG() {
   document.querySelector('svg').style.backgroundColor = params.bg_color;
 }
 
+function interp(min, max, a) { return min + (max-min) * a; }
+
+
 let label_field_controller;
 
 // draw svg
@@ -80,7 +85,11 @@ function draw_svg() {
   for ( let [i, d] of data.entries() ) {
     // console.log(d);
     let rotation_deg = params.azimuth == 'uniform' ? rotation_offset + (360 / data.length) * i : d.azimuth_deg;
-    let p = polar2cartesian( rotation_deg, (Math.log10(d.distance_km) + 1) * params.scale ) ;
+    
+    let log_dist = (Math.log10(d.distance_km) + 1)
+    let distance = interp(log_dist, params.fixed_dist, params.use_fixed_dist) * params.scale; // interpolate between a fixed (log-)dist and the true one
+    
+    let p = polar2cartesian( rotation_deg, distance ) ;
     p.x += W/2;
     p.y += H/2;
     // console.log(p);
