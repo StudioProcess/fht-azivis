@@ -19,9 +19,14 @@ const params = {
   'labels': true,
   'labels_tx': 2,
   'labels_ty': 0,
+  'labels_opacity': 0.5,
   'save_svg': () => { util.saveSVGText( SVG('svg').svg() ); },
   'redraw': () => { draw(); },
-  'azimuth': 'exact'
+  'azimuth': 'exact',
+  'center': true,
+  'center_size': 5,
+  'dots': true,
+  'dots_size': 1,
 };
 
 const datasets = {};
@@ -57,7 +62,9 @@ function draw() {
   const rotation_offset = data[0].azimuth_deg; // save rotation of first element after sorting (i.e. most to the north).
   console.log(data);
   
-  draw.circle(10).center(W/2, H/2);
+  if (params.center) {
+    draw.circle(params.center_size).center(W/2, H/2);
+  }
   
   for ( let [i, d] of data.entries() ) {
     // console.log(d);
@@ -73,14 +80,15 @@ function draw() {
       draw.line(W/2, H/2, p.x, p.y).stroke({ width:params.strokeWidth, color:params.color });
     }
   
-    draw.circle(1).center(p.x, p.y).fill(params.color);
+    if (params.dots) {
+      draw.circle(params.dots_size).center(p.x, p.y).fill(params.color);
+    }
     
     // if (Math.random() < 0.1)
     if (params.labels) {
-      let text = draw.text(d.land).move(p.x, p.y).attr({ 'font-size':params.font_size, 'fill':params.color, 'opacity':0.5 });
+      let text = draw.text(d.land).move(p.x, p.y).attr({ 'font-size':params.font_size, 'fill':params.color, 'opacity':params.labels_opacity });
       text.attr({ 'transform': `rotate(${rotation_deg - 90} ${p.x} ${p.y}) translate(${params.labels_tx} ${params.labels_ty})` })
     }
-    
     
   }
     

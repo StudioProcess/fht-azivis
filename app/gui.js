@@ -24,6 +24,13 @@ export function makeGUI(params, update) {
   g.add(params, 'font_size', 1.0).onFinishChange(update);
   g.add(params, 'labels_tx').onFinishChange(update);
   g.add(params, 'labels_ty').onFinishChange(update);
+  // g.add(params, 'labels_opacity', 0.0, 1.0, 0.01).onFinishChange(update);
+  
+  g = gui.addFolder('dots'); g.open();
+  g.add(params, 'center').onFinishChange(update);
+  g.add(params, 'center_size', 0).onFinishChange(update);
+  g.add(params, 'dots').onFinishChange(update);
+  g.add(params, 'dots_size', 0).onFinishChange(update);
   
   gui.add(params, 'redraw');
   gui.add(params, 'save_svg');
