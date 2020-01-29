@@ -12,6 +12,7 @@
   "license": "AGPL-3.0",
   "dependencies": {
     "@svgdotjs/svg.js": "^3.0.16",
+    "dat.gui": "^0.7.6",
     "papaparse": "^5.1.1"
   },
   "devDependencies": {

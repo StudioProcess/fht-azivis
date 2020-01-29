@@ -4,28 +4,19 @@
   <meta charset="UTF-8">
   <title>fht-azi-vis</title>
   <style>
+    body {
+      margin:0; padding:0;
+    }
     svg {
-      outline: 2px solid black;
+      outline: 2px solid lightgrey;
+      display: block;
+      margin: 0 auto;
     }
   </style>
 </head>
 <body>
+  <svg></svg>
   <script src="./node_modules/papaparse/papaparse.js"></script>
-  <script type="module">
-    import { loadData } from "./data.js";
-    
-    const data = {};
-    
-    (async function main() {
-      data['partner'] = await loadData('./data/FH Technikum Daten 18_19 - Partner.csv');
-      data['herkunft_studierende'] = await loadData('./data/FH Technikum Daten 18_19 - Herkunftsland Studierende.csv');
-      data['herkunft_weiterbildungen'] = await loadData('./data/FH Technikum Daten 18_19 - Herkunftsland Weiterbildungen.csv');
-      data['austausch_mitarbeiter'] = await loadData('./data/FH Technikum Daten 18_19 - Austausch Mitarbeiter.csv');
-      data['austausch_studierende'] = await loadData('./data/FH Technikum Daten 18_19 - Austausch Studierende.csv');
-      
-      console.log(data);
-    })();
-    
-  </script>
+  <script type="module" src="./main.js"></script>
 </body>
 </html>
