@@ -1,6 +1,7 @@
 import { loadData } from './data.js';
 import { makeGUI } from './gui.js';
 import { SVG } from '../node_modules/@svgdotjs/svg.js/dist/svg.esm.js';
+import * as util from './util.js';
 
 const datasets = {};
 const params = {
@@ -37,7 +38,7 @@ const params = {
     draw.circle(5).center(W/2,H/2);
     
     for (let d of data) {
-      console.log(d);
+      // console.log(d);
       let p = polar2cartesian( d.azimuth_deg, (Math.log10(d.distance_km) + 1) * params.scale ) ;
       d.point = p;
       p.x += W/2;
@@ -66,5 +67,15 @@ const params = {
   let gui = makeGUI(params, update);
   
   draw();
+  
+  document.addEventListener('keydown', e => {
+    console.log(e);
+    if (e.key == 'f') {
+      util.toggleFullscreen();
+    }
+    else if (e.key == 's') {
+      util.saveSVGText( SVG('svg').svg() );
+    }
+  });
   
 })();
