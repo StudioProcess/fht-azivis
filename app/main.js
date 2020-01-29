@@ -17,6 +17,8 @@ const params = {
   'font_size': 5,
   'lines': true,
   'labels': true,
+  'labels_tx': 2,
+  'labels_ty': 0,
   'save_svg': () => { util.saveSVGText( SVG('svg').svg() ); },
   'redraw': () => { draw(); },
 };
@@ -50,7 +52,7 @@ function draw() {
   updateBG();
   
   let data = datasets[params.dataset];
-  console.log(data);
+  // console.log(data);
   
   draw.circle(10).center(W/2, H/2);
   
@@ -71,7 +73,9 @@ function draw() {
     
     // if (Math.random() < 0.1)
     if (params.labels) {
-      draw.text(d.land).move(p.x+3, p.y+1.5).attr({ 'font-size':params.font_size, 'fill':params.color, 'opacity':0.5 })
+      let text = draw.text(d.land).move(p.x, p.y).attr({ 'font-size':params.font_size, 'fill':params.color, 'opacity':0.5 });
+      console.log(text);
+      text.attr({ 'transform': `rotate(${d.azimuth_deg - 90} ${p.x} ${p.y}) translate(${params.labels_tx} ${params.labels_ty})` })
     }
     
     
