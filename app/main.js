@@ -7,6 +7,9 @@ const datasets = {};
 const params = {
   'dataset': 'partner',
   'scale': 80,
+  'color': '#000000',
+  'bg_color': '#ffffff',
+  'strokeWidth': 0.1,
 };
 
 (async function main() {
@@ -31,6 +34,7 @@ const params = {
     let W = 1000, H = 1000;
     let draw = SVG('svg').size(W, H);
     draw.clear();
+    updateBG();
     
     let data = datasets[params.dataset];
     console.log(data);
@@ -46,9 +50,9 @@ const params = {
       // console.log(p);
       // 
       // if (Math.random() < 0.2)
-      draw.line(W/2, H/2, p.x, p.y).stroke({width:0.1, color:'black'});
+      draw.line(W/2, H/2, p.x, p.y).stroke({ width:params.strokeWidth, color:params.color });
       
-      draw.circle(1).center(p.x, p.y); //.fill('red');
+      draw.circle(1).center(p.x, p.y).fill(params.color);
       // if (Math.random() < 0.1)
         // draw.text(d.partner).move(p.x+3, p.y+1.5).attr({'font-family': 'system-ui', 'font-size':5, 'opacity':0.5})
     }
@@ -59,12 +63,7 @@ const params = {
     // }
   }
   
-  
-  function update() {
-    draw();
-  }
-  
-  let gui = makeGUI(params, update);
+  let gui = makeGUI(params, draw);
   
   draw();
   
@@ -79,3 +78,8 @@ const params = {
   });
   
 })();
+
+
+export function updateBG() {
+  document.querySelector('svg').style.backgroundColor = params.bg_color;
+}
