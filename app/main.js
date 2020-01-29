@@ -14,6 +14,9 @@ const params = {
   'color': '#000000',
   'bg_color': '#ffffff',
   'strokeWidth': 0.1,
+  'font_size': 5,
+  'lines': true,
+  'labels': true,
   'save_svg': () => { util.saveSVGText( SVG('svg').svg() ); },
   'redraw': () => { draw(); },
 };
@@ -42,6 +45,7 @@ function draw() {
   let W = mm2pt(config.W), H = mm2pt(config.H);
   let draw = SVG('svg').size(W + 'pt', H + 'pt');
   draw.viewbox(0, 0, W, H); // now we can specify all values in pt, but don't have to write 'pt' all the time
+  draw.attr({ 'font-family':'GT America Mono', 'font-weight':500 });
   draw.clear();
   updateBG();
   
@@ -59,11 +63,18 @@ function draw() {
     // console.log(p);
     // 
     // if (Math.random() < 0.2)
-    draw.line(W/2, H/2, p.x, p.y).stroke({ width:params.strokeWidth, color:params.color });
+    if (params.lines) {
+      draw.line(W/2, H/2, p.x, p.y).stroke({ width:params.strokeWidth, color:params.color });
+    }
   
     draw.circle(1).center(p.x, p.y).fill(params.color);
+    
     // if (Math.random() < 0.1)
-      // draw.text(d.partner).move(p.x+3, p.y+1.5).attr({'font-family': 'system-ui', 'font-size':5, 'opacity':0.5})
+    if (params.labels) {
+      draw.text(d.land).move(p.x+3, p.y+1.5).attr({ 'font-size':params.font_size, 'fill':params.color, 'opacity':0.5 })
+    }
+    
+    
   }
     
   // // Scaling Circles (10 / 100 / 1.000 / 10.000)
