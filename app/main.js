@@ -23,6 +23,7 @@ export let params = {
   'layer_0': {
     'enabled': true,
     'dataset': 'partner',
+    'filter': '',
     'scale': 80,
     'fixed_dist': 3,
     'use_fixed_dist': 0,
@@ -75,14 +76,28 @@ export function draw_layer(n) {
   const rotation_offset = data[0].azimuth_deg; // save rotation of first element after sorting (i.e. most to the north).
   
   // setup lebel field selection in ui
-  let label_fields = Object.keys(data[0]);
+  let fields = Object.keys(data[0]);
   if (!label_field_controller[n]) label_field_controller[n] = gui.label_field_controller[n];
-  label_field_controller[n] = label_field_controller[n].options(label_fields).onFinishChange(() => {draw_layer(n)});
+  label_field_controller[n] = label_field_controller[n].options(fields).onFinishChange(() => {draw_layer(n)});
   
   if (!_params.enabled) return;
   
   if (_params.center) {
     draw.circle(_params.center_size).center(W/2, H/2).fill(_params.color);
+  }
+  
+  // apply filter
+  if (_params.filter) {
+      // function takes all fields as arguments
+      const args = fields.concat('return ' + _params.filter + ';');
+      const filter_fn = new Function(...args);
+      console.log(args);
+      console.log(filter_fn);
+      try {
+        data = data.filter( x => filter_fn(...Object.values(x)) ); // call filter_fn with values of current data point
+      } catch (e) {
+        console.warn(`Error in filter (${_params.filter}):`, e);
+      }
   }
   
   for ( let [i, d] of data.entries() ) {
@@ -112,7 +127,7 @@ export function draw_layer(n) {
     
     // if (Math.random() < 0.1)
     if (_params.labels) {
-      let caption = label_fields.includes(_params.field) ? d[_params.field] : d[label_fields[0]];
+      let caption = fields.includes(_params.field) ? d[_params.field] : d[fields[0]];
       if (caption === null) caption = ""; // hide null values
       
       if (_params.field in config.DIGITS_AFTER_COMMA) {
@@ -189,6 +204,10 @@ function save() {
   
   gui.makeGUI();
   makeSVG();
+  
+  document.querySelector('.dg.main').addEventListener('keydown', e => {
+    e.stopPropagation();
+  });
   
   document.addEventListener('keydown', e => {
     // console.log(e);
