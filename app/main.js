@@ -16,21 +16,21 @@ let params = {
   'color': '#000000',
   'bg_color': '#ffffff',
   'font_size': 5,
-  'lines': true,
+  'lines': false,
   'strokeWidth': 0.1,
   'lines_opacity': 1,
   'labels': true,
   'field': 'land',
-  'labels_tx': 2,
+  'labels_tx': 5,
   'labels_ty': 0,
-  'labels_opacity': 0.5,
+  'labels_opacity': 1.0,
   'save_svg': () => { save(); },
   'redraw': () => { draw(); },
   'azimuth': 'exact',
-  'center': true,
+  'center': false,
   'center_size': 5,
   'dots': true,
-  'dots_size': 1,
+  'dots_size': 5,
 };
 
 const datasets = {};
@@ -100,7 +100,11 @@ function draw_svg() {
     }
   
     if (params.dots) {
-      draw.circle(params.dots_size).center(p.x, p.y).fill(params.color);
+      //draw.circle(params.dots_size).center(p.x, p.y).fill(params.color);
+      let dotElement = "●";
+      let dotText = draw.text(dotElement).move(p.x, p.y).attr({ 
+        'font-size':params.dots_size, 'fill':params.color, 'opacity':params.labels_opacity });
+        dotText.attr({ 'transform': `rotate(${rotation_deg - 90} ${p.x} ${p.y})` });
     }
     
     // if (Math.random() < 0.1)
