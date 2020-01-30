@@ -104,7 +104,7 @@ export function draw_layer(n) {
   
     if (_params.dots) {
       //draw.circle(_params.dots_size).center(p.x, p.y).fill(_params.color);
-      let dotElement = "●";
+      let dotElement = "●●●●●●";
       let dotText = draw.text(dotElement).move(p.x, p.y).attr({ 
         'font-size':_params.dots_size, 'fill':_params.color, 'opacity':_params.labels_opacity });
         dotText.attr({ 'transform': `rotate(${rotation_deg - 90} ${p.x} ${p.y})` });
