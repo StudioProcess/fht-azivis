@@ -46,6 +46,7 @@ function addLayer() {
   g.add(params, 'center_size', 0).onFinishChange(update);
   g.add(params, 'dots').onFinishChange(update);
   g.add(params, 'dots_size', 0).onFinishChange(update);
+  g.add(params, 'dot_element').onFinishChange(update);
 }
 
 function setActiveLayer(val) {
