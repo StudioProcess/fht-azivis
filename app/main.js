@@ -106,6 +106,7 @@ function draw_svg() {
     // if (Math.random() < 0.1)
     if (params.labels) {
       let caption = label_fields.includes(params.field) ? d[params.field] : d[label_fields[0]];
+      if (caption === null) caption = ""; // hide null values
       caption = "" + caption; // make sure it's a string
       let text = draw.text(caption).move(p.x, p.y).attr({ 'font-size':params.font_size, 'fill':params.color, 'opacity':params.labels_opacity });
       text.attr({ 'transform': `rotate(${rotation_deg - 90} ${p.x} ${p.y}) translate(${params.labels_tx} ${params.labels_ty})` })
