@@ -11,8 +11,8 @@ Bosnien-Herzeg.,Europa,38,,"43.915886,17.679076",1732.136597,Bosnia and Herzegov
 Brasilien,Südamerika,2,,"-14.235004,-51.92528",259.0634766,Brazil
 Bulgarien,Europa,21,,"42.733883,25.48583",1113.163696,Bulgaria
 Chile,Südamerika,1,,"-35.675147,-71.542969",193.3970642,Chile
-China (Taiwan),Asien,2,,"23.69781,120.960515",2798.068115,Taiwan
-China (VR),Asien,144,,"35.86166,104.195397",1841.234253,China
+Taiwan,Asien,2,,"23.69781,120.960515",2798.068115,Taiwan
+China,Asien,144,,"35.86166,104.195397",1841.234253,China
 Cote d'Ivoire,Afrika,1,,"7.539988999999999,-5.547079999999999",240.3309784,Côte d'Ivoire
 Deutschland,Europa,209,,"51.165691,10.451526",204.9528198,Germany
 Ekuador,Südamerika,3,,"-1.831239,-78.18340599999999",1393.953857,Ecuador
@@ -20,7 +20,7 @@ El Salvador,Südamerika,1,,"13.794185,-88.89653",632.3411865,El Salvador
 Estland,Europa,3,,"58.595272,25.0136071",30.26166916,Estonia
 Finnland,Europa,1,,"61.92410999999999,25.7481511",174.1120911,Finland
 Frankreich,Europa,7,,"46.227638,2.213749",423.1949463,France
-GB u. Nordirland,Europa,1,,"55.378051,-3.435973",371.4067078,United Kingdom
+Vereinigtes Königreich,1,,"55.378051,-3.435973",371.4067078,United Kingdom
 Georgien,Asien,1,,"42.315407,43.35689199999999",510.9947205,Georgia
 Ghana,Afrika,2,,"7.946527,-1.023194",124.9958038,Ghana
 Griechenland,Europa,5,,"39.074208,21.824312",890.4103394,Greece
@@ -41,7 +41,7 @@ Kasachstan,Asien,5,,"48.019573,66.923684",476.7554932,Kazakhstan
 Kenia,Afrika,1,,"-0.023559,37.906193",822.9911499,Kenya
 Kirgistan,Asien,1,,"41.20438,74.766098",2103.424316,Kyrgyzstan
 Kolumbien,Südamerika,3,,"4.570868,-74.297333",2512.470215,Colombia
-Korea (Süd),Asien,2,,"35.907757,127.766922",561.034668,South Korea
+Südkorea,Asien,2,,"35.907757,127.766922",561.034668,South Korea
 Kosovo,Europa,3,,"42.6026359,20.902977",589.1018677,Kosovo
 Kroatien,Europa,29,,"45.1,15.2000001",896.6038818,Croatia
 Lettland,Europa,2,,"56.879635,24.603189",29.97242928,Latvia
