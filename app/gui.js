@@ -19,7 +19,7 @@ function addLayer() {
   
   f.add(params, 'enabled').onFinishChange(update);
   f.add(params, 'dataset', ['partner', 'herkunft_studierende', 'herkunft_weiterbildungen', 'austausch_mitarbeiter', 'austausch_studierende']).onFinishChange(update);
-  f.add(params, 'scale', 20, 150).onFinishChange(update);
+  f.add(params, 'scale', 1).onFinishChange(update);
   f.add(params, 'azimuth', ['exact', 'uniform']).onFinishChange(update);
   f.add(params, 'fixed_dist', 0).onFinishChange(update);
   f.add(params, 'use_fixed_dist', 0, 1, 0.01).onFinishChange(update);
