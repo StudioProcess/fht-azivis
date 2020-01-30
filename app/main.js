@@ -7,6 +7,12 @@ export const config = {
   W: 410, // mm
   H: 276, // mm
   LAYERS: 10,
+  DIGITS_AFTER_COMMA: {
+    'distance_km': 1,
+    'geocoordinates': 3,
+    'azimuth_deg': 1,
+    'elevation': 0,
+  },
 };
 
 export let params = {
@@ -108,6 +114,16 @@ export function draw_layer(n) {
     if (_params.labels) {
       let caption = label_fields.includes(_params.field) ? d[_params.field] : d[label_fields[0]];
       if (caption === null) caption = ""; // hide null values
+      
+      if (_params.field in config.DIGITS_AFTER_COMMA) {
+        if (_params.field == 'geocoordinates') {
+          caption = caption.split(',').map(parseFloat).map(x => x.toFixed(config.DIGITS_AFTER_COMMA['geocoordinates'])).join(',');
+        } else {
+          caption = parseFloat(caption).toFixed( config.DIGITS_AFTER_COMMA[_params.field] )
+        }
+      }
+
+      else 
       caption = "" + caption; // make sure it's a string
       let text = draw.text(caption).move(p.x, p.y).attr({ 'font-size':_params.font_size, 'fill':_params.color, 'opacity':_params.labels_opacity });
       text.attr({ 'transform': `rotate(${rotation_deg - 90} ${p.x} ${p.y}) translate(${_params.labels_tx} ${_params.labels_ty})` });

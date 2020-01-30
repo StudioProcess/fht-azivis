@@ -61,7 +61,7 @@ function addAzidist(obj) {
   let location = obj['geocoordinates'].split(',').map(parseFloat);
   const wien = [48.2, 16.366667];
   let ad = azidist( wien, location );
-  obj['location'] = location;
+  // obj['location'] = location;
   obj['distance_km'] = ad.distance_km;
   obj['azimuth_deg'] = ad.azimuth_deg;
 }
