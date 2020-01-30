@@ -58,7 +58,6 @@ let label_field_controller;
 
 // draw svg
 function draw_svg() {
-  console.log('redrawing');
   let W = mm2pt(config.W), H = mm2pt(config.H);
   let draw = SVG('svg').size(W + 'pt', H + 'pt');
   draw.viewbox(0, 0, W, H); // now we can specify all values in pt, but don't have to write 'pt' all the time
@@ -72,9 +71,7 @@ function draw_svg() {
   console.log(data);
   
   // setup lebel field selection in ui
-  console.log(  label_field_controller );
   let label_fields = Object.keys(data[0]);
-  console.log(label_fields);
   
   if (!label_field_controller) label_field_controller = gui.label_field_controller;
   label_field_controller = label_field_controller.options(label_fields).onFinishChange(draw_svg);
