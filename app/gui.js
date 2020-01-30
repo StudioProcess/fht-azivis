@@ -12,7 +12,10 @@ function addLayer() {
   layers.push(f);
   
   const params = main.params['layer_' + n];
-  const update = main.update;
+  
+  function update() {
+    main.draw_layer(n);
+  }
   
   f.add(params, 'enabled').onFinishChange(update);
   f.add(params, 'dataset', ['partner', 'herkunft_studierende', 'herkunft_weiterbildungen', 'austausch_mitarbeiter', 'austausch_studierende']).onFinishChange(update);

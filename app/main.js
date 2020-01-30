@@ -6,7 +6,7 @@ import * as util from './util.js';
 export const config = {
   W: 410, // mm
   H: 276, // mm
-  LAYERS: 5,
+  LAYERS: 10,
 };
 
 export let params = {
@@ -59,21 +59,21 @@ function interp(min, max, a) { return min + (max-min) * a; }
 
 let label_field_controller = [];
 
-function draw_layer(n) {
-  console.log('layer ' + n);
+export function draw_layer(n) {
+  console.log('update layer ' + n);
   let draw = svg.findOne('#layer_' + n);
   draw.clear();
   let _params = params['layer_' + n];
-  if (!_params.enabled) return;
   
   let data = datasets[_params.dataset];
   const rotation_offset = data[0].azimuth_deg; // save rotation of first element after sorting (i.e. most to the north).
   
   // setup lebel field selection in ui
   let label_fields = Object.keys(data[0]);
-  
   if (!label_field_controller[n]) label_field_controller[n] = gui.label_field_controller[n];
-  label_field_controller[n] = label_field_controller[n].options(label_fields).onFinishChange(update);
+  label_field_controller[n] = label_field_controller[n].options(label_fields).onFinishChange(() => {draw_layer(n)});
+  
+  if (!_params.enabled) return;
   
   if (_params.center) {
     draw.circle(_params.center_size).center(W/2, H/2).fill(_params.color);
@@ -138,18 +138,14 @@ function makeSVG() {
     svg.group().attr({ id:"layer_" + i });
   }
   
-  update()
+  for (let i=0; i<config.LAYERS; i++) {
+    draw_layer(i);
+  }
 }
 
 function save() {
   const ts = util.saveSVGText( SVG('svg').svg() );
   util.saveSettings(params, ts);
-}
-
-export function update() {
-  for (let i=0; i<config.LAYERS; i++) {
-    draw_layer(i);
-  }
 }
 
 (async function main() {
