@@ -8,7 +8,7 @@ const config = {
   H: 276, // mm
 };
 
-const params = {
+let params = {
   'dataset': 'partner',
   'scale': 80,
   'fixed_dist': 3,
@@ -24,7 +24,7 @@ const params = {
   'labels_tx': 2,
   'labels_ty': 0,
   'labels_opacity': 0.5,
-  'save_svg': () => { util.saveSVGText( SVG('svg').svg() ); },
+  'save_svg': () => { save(); },
   'redraw': () => { draw(); },
   'azimuth': 'exact',
   'center': true,
@@ -120,8 +120,13 @@ function draw_svg() {
   // }
 }
 
+function save() {
+  const ts = util.saveSVGText( SVG('svg').svg() );
+  util.saveSettings(params, ts);
+}
 
 (async function main() {
+  await util.loadSettings('./app/settings.json', params);
   
   datasets['partner'] = await loadData('./data/FH Technikum Daten 18_19 - Partner.csv');
   datasets['herkunft_studierende'] = await loadData('./data/FH Technikum Daten 18_19 - Herkunftsland Studierende.csv');
@@ -138,7 +143,7 @@ function draw_svg() {
       util.toggleFullscreen();
     }
     else if (e.key == 's') {
-      util.saveSVGText( SVG('svg').svg() );
+      save();
     }
   });
   

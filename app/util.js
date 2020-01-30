@@ -17,31 +17,50 @@ export function toggleFullscreen() {
 
 // NOTE: Needs THREE.WebGLRenderer with preserveDrawingBuffer=true
 // TODO: Firefox seems to save only the bottom left quadrant of the canvas. This also happens with 'Right-Click/Save Image as...'
-export function saveCanvas(selector) {
+export function saveCanvas(selector, timestamp) {
   let canvas = document.querySelector(selector || 'canvas');
   let link = document.createElement('a');
-  let timestamp = new Date().toISOString();
+  if (!timestamp) timestamp = new Date().toISOString();
   link.download = timestamp + '.png';
   link.href = canvas.toDataURL();
   link.style.display = 'none';     // Firefox
   document.body.appendChild(link); // Firefox
   link.click();
   document.body.removeChild(link); // Firefox
+  return timestamp;
 }
 
 
-export function saveText(str, ext = '.txt', mime = 'text/plain') {
+export function saveText(str, timestamp, ext = '.txt', mime = 'text/plain') {
   let link = document.createElement('a');
-  let timestamp = new Date().toISOString();
+  if (!timestamp) timestamp = new Date().toISOString();
   link.download = timestamp + ext;
   link.href = URL.createObjectURL(new Blob([str], {type: mime}));
   link.style.display = 'none';     // Firefox
   document.body.appendChild(link); // Firefox
   link.click();
   document.body.removeChild(link); // Firefox
+  return timestamp;
 }
 
 
-export function saveSVGText(str) {
-  return saveText(str, '.svg', 'image/svg+xml');
+export function saveSVGText(str, timestamp) {
+  return saveText(str, timestamp, '.svg', 'image/svg+xml');
+}
+
+
+export function saveSettings(obj, timestamp) {
+  return saveText( JSON.stringify(obj, null, 2), timestamp, '.json', 'application/json' );
+}
+
+
+export async function loadSettings(url, target = {}) {
+  const response = await fetch(url);
+  let obj = {};
+  try {
+    obj = await response.json();
+  } catch (e) {
+    console.error(`Error parsing settings file ${url}`, e);
+  }
+  return Object.assign( target, obj );
 }
