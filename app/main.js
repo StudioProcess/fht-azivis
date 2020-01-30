@@ -23,14 +23,14 @@ const params = {
   'field': 'land',
   'labels_tx': 2,
   'labels_ty': 0,
-  'labels_opacity': 0.5,
+  'labels_opacity': 1.0,
   'save_svg': () => { util.saveSVGText( SVG('svg').svg() ); },
   'redraw': () => { draw(); },
   'azimuth': 'exact',
   'center': true,
   'center_size': 5,
   'dots': true,
-  'dots_size': 1,
+  'dots_size': 5,
 };
 
 const datasets = {};
@@ -100,7 +100,11 @@ function draw_svg() {
     }
   
     if (params.dots) {
-      draw.circle(params.dots_size).center(p.x, p.y).fill(params.color);
+      //draw.circle(params.dots_size).center(p.x, p.y).fill(params.color);
+      let dotElement = "●";
+      let dotText = draw.text(dotElement).move(p.x, p.y).attr({ 
+        'font-size':params.dots_size, 'fill':params.color, 'opacity':params.labels_opacity });
+        dotText.attr({ 'transform': `rotate(${rotation_deg - 90} ${p.x} ${p.y})` });
     }
     
     // if (Math.random() < 0.1)
