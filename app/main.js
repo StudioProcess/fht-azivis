@@ -24,6 +24,7 @@ let params = {
   'labels_tx': 5,
   'labels_ty': 0,
   'labels_opacity': 1.0,
+  'labels_anchor': 'start',
   'save_svg': () => { save(); },
   'redraw': () => { draw(); },
   'azimuth': 'exact',
@@ -113,7 +114,8 @@ function draw_svg() {
       if (caption === null) caption = ""; // hide null values
       caption = "" + caption; // make sure it's a string
       let text = draw.text(caption).move(p.x, p.y).attr({ 'font-size':params.font_size, 'fill':params.color, 'opacity':params.labels_opacity });
-      text.attr({ 'transform': `rotate(${rotation_deg - 90} ${p.x} ${p.y}) translate(${params.labels_tx} ${params.labels_ty})` })
+      text.attr({ 'transform': `rotate(${rotation_deg - 90} ${p.x} ${p.y}) translate(${params.labels_tx} ${params.labels_ty})` });
+      text.attr({ 'text-anchor':params.labels_anchor });
     }
     
   }
