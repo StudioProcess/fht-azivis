@@ -23,7 +23,7 @@ export let params = {
   'layer_0': {
     'enabled': true,
     'dataset': 'partner',
-    'filter': '',
+    'filter': '', // im gui zb.: land=="Österreich" && kategorie=="Forschungspartner"
     'scale': 80,
     'fixed_dist': 3,
     'use_fixed_dist': 0,
@@ -136,6 +136,19 @@ export function draw_layer(n) {
           caption = caption.split(',').map(parseFloat).map(x => x.toFixed(config.DIGITS_AFTER_COMMA['geocoordinates'])).join(',');
         } else {
           caption = parseFloat(caption).toFixed( config.DIGITS_AFTER_COMMA[_params.field] )
+        }
+      }
+      
+      // remove following block, if numbers for 'gewicht' are prefered
+      if (_params.field == 'gewicht') {
+        if(caption == "1") {
+          caption = "";
+        }
+        if(caption == "2") {
+          caption = "●";
+        }
+        if(caption == "3") {
+          caption = "●●";
         }
       }
 
