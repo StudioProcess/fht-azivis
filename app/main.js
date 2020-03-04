@@ -205,11 +205,19 @@ function save() {
       }
   }
   
-  datasets['partner'] = await loadData('./data/FH Technikum Daten 18_19 - Partner.csv');
-  datasets['herkunft_studierende'] = await loadData('./data/FH Technikum Daten 18_19 - Herkunftsland Studierende.csv');
-  datasets['herkunft_weiterbildungen'] = await loadData('./data/FH Technikum Daten 18_19 - Herkunftsland Weiterbildungen.csv');
-  datasets['austausch_mitarbeiter'] = await loadData('./data/FH Technikum Daten 18_19 - Austausch Mitarbeiter.csv');
-  datasets['austausch_studierende'] = await loadData('./data/FH Technikum Daten 18_19 - Austausch Studierende.csv');
+  // Original Data (DE)
+  // datasets['partner'] = await loadData('./data/FH Technikum Daten 18_19 - Partner.csv');
+  // datasets['herkunft_studierende'] = await loadData('./data/FH Technikum Daten 18_19 - Herkunftsland Studierende.csv');
+  // datasets['herkunft_weiterbildungen'] = await loadData('./data/FH Technikum Daten 18_19 - Herkunftsland Weiterbildungen.csv');
+  // datasets['austausch_mitarbeiter'] = await loadData('./data/FH Technikum Daten 18_19 - Austausch Mitarbeiter.csv');
+  // datasets['austausch_studierende'] = await loadData('./data/FH Technikum Daten 18_19 - Austausch Studierende.csv');
+  
+  // Translated Data (EN)
+  datasets['partner'] = await loadData('./data/FH Technikum Daten 18_19 für Übersetzung - Partner.csv');
+  datasets['herkunft_studierende'] = await loadData('./data/FH Technikum Daten 18_19 für Übersetzung - Herkunftsland Studierende.csv');
+  datasets['herkunft_weiterbildungen'] = await loadData('./data/FH Technikum Daten 18_19 für Übersetzung - Herkunftsland Weiterbildungen.csv');
+  datasets['austausch_mitarbeiter'] = await loadData('./data/FH Technikum Daten 18_19 für Übersetzung - Austausch Mitarbeiter.csv');
+  datasets['austausch_studierende'] = await loadData('./data/FH Technikum Daten 18_19 für Übersetzung - Austausch Studierende.csv');
   
   // sort data
   for (let data of Object.values(datasets))  {

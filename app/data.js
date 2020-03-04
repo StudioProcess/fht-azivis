@@ -44,6 +44,7 @@ async function parseCSV(path) {
 
 async function loadCSV(path) {
   let csv = await parseCSV(path);
+  csv.data = csv.data.filter(x => !(x.length == 1 && x[0] == null)) // remove null lines
   let keys = csv.data[0].map( (key, i) => key ? key.toLowerCase().replace(' ', '_') : `column_${i+1}`);
 
   let obj = csv.data.slice(1).map(arr => {
@@ -68,6 +69,7 @@ function addAzidist(obj) {
 
 
 export async function loadData(path) {
+  console.log(`loading ${path}`)
   let data = await loadCSV(path);
   data.map(addAzidist);
   return data;
